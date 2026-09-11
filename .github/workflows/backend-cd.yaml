@@ -137,3 +137,5 @@ jobs:
           kubectl get endpoints backend -o wide
           kubectl get nodes -o wide
           kubectl describe pod -l app=backend
+          kubectl get nodes -o wide
+          kubectl get events -A --sort-by=.lastTimestamp
