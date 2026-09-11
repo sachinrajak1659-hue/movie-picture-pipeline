@@ -465,7 +465,23 @@ kustomize edit set image backend=<ECR_REPO_URL>:<NEW_TAG_HERE>
 # Apply the manifests to the cluster
 kustomize build | kubectl apply -f -
 ```
+## Project Verification & Screenshots
 
+### 1. GitHub Actions Pipelines
+All automated CI/CD workflows passing successfully:
+![Pipeline Success](screenshots/pipeline_success.png)
+
+### 2. Kubernetes Pods
+Workloads running properly in the cluster (`kubectl get pods -A`):
+![Kubernetes Pods](screenshots/k8_pods.png)
+
+### 3. Kubernetes Services
+Load balancer endpoints provisioned (`kubectl get services -A`):
+![Kubernetes Services](screenshots/k8_services.png)
+
+### 4. Application Running
+The frontend application running live and displaying data:
+![App Running](screenshots/app_running.png)
 ## License
 
 [License](LICENSE.md)
