@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: us-east-1
   EKS_CLUSTER_NAME: cluster
-  ECR_REPOSITORY: mp-backend
+  ECR_REPOSITORY: backend
 
 jobs:
   lint:
