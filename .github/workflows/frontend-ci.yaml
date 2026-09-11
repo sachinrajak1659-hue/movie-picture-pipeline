@@ -56,21 +56,36 @@ jobs:
         env:
           CI: true
 
-  build:
-    name: Build Docker Image
-    needs: [lint, test]
+build:
+    name: Build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: starter/frontend
+    needs: [lint, test]
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build Docker Image
-        env:
-          REACT_APP_MOVIE_API_URL: http://a7fceb61e2dbb4cb9bbec8a2592420dd-70171319.us-east-1.elb.amazonaws.com
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        working-directory: starter/frontend
+        run: npm ci
+
+      - name: Run npm test
+        working-directory: starter/frontend
+        run: CI=true npm test
+
+      - name: Build Docker image
+        working-directory: starter/frontend
         run: |
-          docker build \
-            --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL \
-            --tag mp-frontend:${{ github.sha }} .
+          docker build --build-arg REACT_APP_MOVIE_API_URL=http://localhost:5000 -t mp-frontend:latest .
