@@ -9,45 +9,38 @@ The team's project is comprised of 2 applications.
 
 You'll find 2 folders, one named `frontend` and one named `backend`, where each application's source code is maintained. Your job is to use the team's [existing documentation](#frontend-development-notes) and create CI/CD pipelines to meet the teams' needs.
 
-## Deliverables
+## Project Submission Checklist
 
 ### Frontend
 
-1. A Continuous Integration workflow that:
-   1. Runs on `pull_requests` against the `main` branch,only when code in the frontend application changes.
-   2. Is able to be run on-demand (i.e. manually without needing to push code)
-   3. Runs the following jobs in parallel:
-      1. Runs a linting job that fails if the code doesn't adhere to eslint rules
-      2. Runs a test job that fails if the test suite doesn't pass
-   4. Runs a build job only if the lint and test jobs pass and successfully builds the application
-2. A Continuous Deployment workflow that:
-   1. Runs on `push` against the `main` branch, only when code in the frontend application changes.
-   2. Is able to be run on-demand (i.e. manually without needing to push code)
-   3. Runs the same lint/test jobs as the Continuous Integration workflow
-   4. Runs a build job only when the lint and test jobs pass
-      1. The built docker image should be tagged with the git sha
-   5. Runs a deploy job that applies the Kubernetes manifests to the provided cluster.
-      1. The manifest should deploy the newly created tagged image
-      2. The tag applied to the image should be the git SHA of the commit that triggered the build
+- [x] Continuous Integration workflow runs on pull requests targeting `main` when frontend code changes and supports manual runs.
+- [x] CI lint and test jobs run in parallel, followed by a build job when both pass.
+- [x] Continuous Deployment workflow runs on pushes to `main` when frontend code changes and supports manual runs.
+- [x] CD builds an image tagged with the triggering commit SHA and deploys the corresponding Kubernetes manifest.
 
 ### Backend
 
-1. A Continuous Integration workflow that:
-   1. Runs on `pull_requests` against the `main` branch,only when code in the frontend application changes.
-   2. Is able to be run on-demand (i.e. manually without needing to push code)
-   3. Runs the following jobs in parallel:
-      1. Runs a linting job that fails if the code doesn't adhere to eslint rules
-      2. Runs a test job that fails if the test suite doesn't pass
-   4. Runs a build job only if the lint and test jobs pass and successfully builds the application
-2. A Continuous Deployment workflow that:
-   1. Runs on `push` against the `main` branch, only when code in the frontend application changes.
-   2. Is able to be run on-demand (i.e. manually without needing to push code)
-   3. Runs the same lint/test jobs as the Continuous Integration workflow
-   4. Runs a build job only when the lint and test jobs pass
-      1. The built docker image should be tagged with the git sha
-   5. Runs a deploy job that applies the Kubernetes manifests to the provided cluster.
-      1. The manifest should deploy the newly created tagged image
-      2. The tag applied to the image should be the git SHA of the commit that triggered the build
+- [x] Continuous Integration workflow runs on pull requests targeting `main` when backend code changes and supports manual runs.
+- [x] CI lint and test jobs run in parallel, followed by a build job when both pass.
+- [x] Continuous Deployment workflow runs on pushes to `main` when backend code changes and supports manual runs.
+- [x] CD builds an image tagged with the triggering commit SHA and deploys the corresponding Kubernetes manifest.
+- [x] Backend service deployed successfully to the AWS EKS cluster.
+- [x] `/movies/` endpoint verified through the EKS load balancer; see the [backend curl verification](screenshots/backend_curl_success.png).
+
+### Backend EKS Deployment Verification
+
+The backend service was deployed successfully to the AWS EKS cluster and verified through the service load balancer:
+
+```text
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 133
+Access-Control-Allow-Origin: *
+
+{"movies":[{"id":"123","title":"Top Gun: Maverick"},{"id":"456","title":"Sonic the Hedgehog"},{"id":"789","title":"A Quiet Place"}]}
+```
+
+See the complete [backend curl verification screenshot](screenshots/backend_curl_success.png).
 
 
 **⚠️ NOTE**
